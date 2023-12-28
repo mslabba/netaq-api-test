@@ -14,12 +14,13 @@ use App\Http\Controllers\EnrolmentController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post('login', 'AuthController@login');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth', 'manage-enrolments'])->group(function () {
+Route::middleware(['jwt.auth', 'manage-enrolments'])->group(function () {
     Route::post('enrolments', [EnrolmentController::class, 'store']);
     Route::get('enrolments/{enrolmentId}', [EnrolmentController::class, 'get']);
     Route::put('enrolments/{enrolmentId}', [EnrolmentController::class, 'update']);
